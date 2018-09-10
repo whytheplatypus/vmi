@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}{{ settings.APPLICATION_TITLE }}{% endblock %}
+{% block pretitle %}{% endblock %}
+{% block extra_head %}
+{% endblock %}
+
+
+{% block pagename %} {{ settings.APPLICATION_TITLE }} {% endblock %}
+{% block Content %}
+
+
+    <div class="hero-unit text-center">
+
+        <div class="container-fluid">
+                <div class="col-md-12">
+
+                
+                <div class="col-lg-12 well">
+
+                    <h2>Welcome</h2>
+                    <p>Welcome to the {{ settings.APPLICATION_TITLE }}</p>
+     
+    
+       
+                    <a href="{{settings.USER_DOCS}}">
+                                    <button type="button" class="btn btn-primary"> <i class="fa fa-map"></i> {{settings.USER_DOCS_TITLE}} </button></a>
+                    
+                      <a {{settings.DEVELOPER_DOCS}}">
+                    <button type="button" class="btn btn-primary"> <i class="fa fa-gears"></i> {{settings.DEVELOPER_DOCS_TITLE}}</button></a>
+                
+                </div>
+                
+                </div>
+           
+
+        </div>
+    </div>
+
+
+{% endblock %}
