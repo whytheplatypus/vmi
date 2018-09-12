@@ -27,3 +27,4 @@ six==1.11.0
 tox==3.2.1
 urllib3==1.23
 virtualenv==16.0.0
+pyjwt==1.6.4
