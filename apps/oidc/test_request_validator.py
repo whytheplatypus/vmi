@@ -85,7 +85,7 @@ class RequestValidatorTests(TestCase):
 
         # exchange authorization code for a valid access token
         token_request_data = {
-            "grant_type": "openid",
+            "grant_type": "authorization_code",
             "code": authorization_code,
             "redirect_uri": "http://example.org",
         }
@@ -97,7 +97,8 @@ class RequestValidatorTests(TestCase):
         content = json.loads(response.content.decode("utf-8"))
         self.assertEqual(content["token_type"], "Bearer")
         self.assertEqual(content["expires_in"], oauth2_settings.ACCESS_TOKEN_EXPIRE_SECONDS)
-        id_token = content["id_token"]
+        id_token = content.get("id_token")
+        self.assertIsNotNone(id_token)
         claims = JWTBuilder().decode(id_token, audience=self.application.client_id)
         self.assertEqual(claims['sub'], self.test_user.id)
 
