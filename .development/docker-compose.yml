@@ -16,6 +16,7 @@ services:
     environment:
             - DATABASES_CUSTOM=postgres://postgres:toor@db:5432/vmi
             - OAUTHLIB_INSECURE_TRANSPORT=true
+            - OIDC_ISSUER=http://localhost:8000
     volumes:
       - ../:/code
     ports:
