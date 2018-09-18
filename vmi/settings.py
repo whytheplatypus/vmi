@@ -126,5 +126,7 @@ STATIC_URL = '/static/'
 # OAUTH SETTINGS
 OAUTH2_PROVIDER = {
     'SCOPES': {'openid': 'open id connect access'},
+    'DEFAULT_SCOPES': ['openid'],
     'OAUTH2_VALIDATOR_CLASS': 'apps.oidc.request_validator.RequestValidator',
+    'OAUTH2_SERVER_CLASS': 'apps.oidc.server.Server',
 }
