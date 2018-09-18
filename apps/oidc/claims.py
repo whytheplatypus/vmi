@@ -46,4 +46,5 @@ class DefaultProvider(BaseProvider):
         return time.time()
 
     def claim_nonce(self):
+        # TODO need to add nonce to auth form
         return getattr(self.request, 'nonce', None)
