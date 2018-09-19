@@ -12,6 +12,15 @@ class BaseProvider(object):
         self.token = token
         self.request = request
 
+    @classmethod
+    def get_supported_claims(cls):
+        claims = []
+        for name in dir(cls):
+            if name.startswith('claim_'):
+                key = name.replace('claim_', "", 1)
+                claims.append(key)
+        return claims
+
     def get_claims(self):
         claims = {}
         for name in dir(self):
@@ -30,7 +39,7 @@ class DefaultProvider(BaseProvider):
         return self.user.email
 
     def claim_iss(self):
-        return "hostname"
+        return oidc_settings.OIDC_ISSUER
 
     def claim_sub(self):
         return getattr(self.user, 'id', None)
