@@ -131,3 +131,6 @@ OAUTH2_PROVIDER = {
     'OAUTH2_VALIDATOR_CLASS': 'apps.oidc.request_validator.RequestValidator',
     'OAUTH2_SERVER_CLASS': 'apps.oidc.server.Server',
 }
+# OIDC_PROVIDER = {
+#     'OIDC_ISSUER': 'http://localhost:8000',
+# }
