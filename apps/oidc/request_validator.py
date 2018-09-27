@@ -1,8 +1,11 @@
+from datetime import timedelta
 from oauth2_provider.oauth2_validators import (
     OAuth2Validator,
     GRANT_TYPE_MAPPING,
 )
-from oauth2_provider.models import AbstractApplication
+from oauth2_provider.models import AbstractApplication, get_grant_model
+from oauth2_provider.settings import oauth2_settings
+from django.utils import timezone
 from .claims import get_claims_provider
 from .jwt import get_jwt_builder
 
@@ -10,6 +13,7 @@ GRANT_TYPE_MAPPING["openid"] = (AbstractApplication.GRANT_AUTHORIZATION_CODE, )
 
 ClaimsProvider = get_claims_provider()
 JWTBuilder = get_jwt_builder()
+Grant = get_grant_model()
 
 class RequestValidator(OAuth2Validator):
 
@@ -38,3 +42,30 @@ class RequestValidator(OAuth2Validator):
         if request.response_type == "id_token":
             return
         super().save_bearer_token(token, request, args, kwargs)
+
+    def validate_code(self, client_id, code, client, request, *args, **kwargs):
+        try:
+            grant = Grant.objects.get(code=code, application=client)
+            if not grant.is_expired():
+                request.scopes = grant.scope.split(" ")
+                request.user = grant.user
+                request.nonce = grant.nonce
+                return True
+            return False
+
+        except Grant.DoesNotExist:
+            return False
+
+    def save_authorization_code(self, client_id, code, request, *args, **kwargs):
+        expires = timezone.now() + timedelta(
+            seconds=oauth2_settings.AUTHORIZATION_CODE_EXPIRE_SECONDS)
+        g = Grant(
+            application=request.client,
+            user=request.user,
+            code=code["code"],
+            expires=expires,
+            redirect_uri=request.redirect_uri,
+            scope=" ".join(request.scopes),
+            nonce=getattr(request, 'nonce', None)
+        )
+        g.save()

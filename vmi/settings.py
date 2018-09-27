@@ -131,6 +131,10 @@ OAUTH2_PROVIDER = {
     'OAUTH2_VALIDATOR_CLASS': 'apps.oidc.request_validator.RequestValidator',
     'OAUTH2_SERVER_CLASS': 'apps.oidc.server.Server',
 }
+OAUTH2_PROVIDER_GRANT_MODEL = 'oidc.Grant'
+OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'oauth2_provider.AccessToken'
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
+OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = 'oauth2_provider.RefreshToken'
 # OIDC_PROVIDER = {
 #     'OIDC_ISSUER': 'http://localhost:8000',
 # }
