@@ -1,7 +1,9 @@
+# TODO Split these up
 import logging
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
+from rest_framework import permissions
 from django.urls import reverse
 from oauth2_provider import scopes
 from oauth2_provider.exceptions import OAuthToolkitError
@@ -31,6 +33,7 @@ class Wellknown(APIView):
                 "refresh_token",
             ],
             "issuer": oidc_settings.OIDC_ISSUER,
+            "userinfo_endpoint": oidc_settings.OIDC_ISSUER + reverse("oidc:userinfo"),
             "authorization_endpoint": oidc_settings.OIDC_ISSUER + reverse("oauth2_provider:authorize"),
             "token_endpoint": oidc_settings.OIDC_ISSUER + reverse("oauth2_provider:token"),
             "revocation_endpoint": oidc_settings.OIDC_ISSUER + reverse("oauth2_provider:revoke-token"),
@@ -47,6 +50,22 @@ class JWKSURI(APIView):
     def get(self, request, format=None):
         return Response({
             "keys": [get_jwt_builder().get_jwks()]})
+
+
+ClaimsProvider = get_claims_provider()
+class UserInfo(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    renderer_classes = [JSONRenderer]
+
+    def get(self, request, format=None):
+        cp = ClaimsProvider(user=request.user, token=None, request=request)
+        claims = cp.get_claims()
+        return Response(claims)
+
+    def post(self, request, format=None):
+        cp = ClaimsProvider(user=request.user, token=None, request=request)
+        claims = cp.get_claims()
+        return Response(claims)
 
 
 class AuthorizationView(OAuth2AuthorizationView):
