@@ -48,4 +48,5 @@ urlpatterns = [
     path('o/', include((oauth2_management_urlpatterns + oauth2_base_urlpatterns, 'oauth2_provider'))),
     path('accounts/', include('django.contrib.auth.urls')),
     path('.well-known/', include('apps.oidc.wellknown_urls')),
+    path('o/', include(('apps.oidc.urls', 'oidc'), namespace='oidc')),
 ]

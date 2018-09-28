@@ -31,3 +31,4 @@ pyjwt==1.6.4
 pycryptodome==3.6.6
 pyjwkest==1.4.0 
 djangorestframework==3.8.2
+cryptography==2.3.1 
