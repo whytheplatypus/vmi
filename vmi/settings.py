@@ -94,16 +94,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation'
+                '.NumericPasswordValidator',
     },
 ]
 
@@ -175,9 +179,11 @@ TOS_TITLE = env('DJANGO_TOS_TITLE', 'Terms of Service')
 TAG_LINE_1 = env('DJANGO_TAG_LINE_1', 'Share your health data')
 TAG_LINE_2 = env('DJANGO_TAG_LINE_2',
                  'with applications, organizations, and people you trust.')
-EXPLAINATION_LINE = 'This service allows Medicare beneficiaries to connect their health data to applications of their choosing.'
+EXPLAINATION_LINE = ('This service allows Medicare beneficiaries'
+                     'to connect their health data to applications'
+                     'of their choosing.')
 EXPLAINATION_LINE = env('DJANGO_EXPLAINATION_LINE ', EXPLAINATION_LINE)
-USER_DOCS_URI ="https://abhealth.us"
+USER_DOCS_URI = "https://abhealth.us"
 USER_DOCS_TITLE = "User Documentation"
 USER_DOCS = "USer Docs"
 # LINKS TO DOCS
@@ -221,7 +227,8 @@ SETTINGS_EXPORT = [
 
 # emails
 DEFAULT_FROM_EMAIL = env('DJANGO_FROM_EMAIL', 'no-reply@verifymyidentity.com')
-DEFAULT_ADMIN_EMAIL = env('DJANGO_ADMIN_EMAIL', 'no-reply@verifymyidentity.com')
+DEFAULT_ADMIN_EMAIL = env('DJANGO_ADMIN_EMAIL',
+                          'no-reply@verifymyidentity.com')
 
 # The console.EmailBackend backend prints to the console.
 # Redefine this for SES or other email delivery mechanism
@@ -248,4 +255,3 @@ AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID', 'use-your-own')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY', 'change-me-please')
 SIGNUP_TIMEOUT_DAYS = 3
 ORGANIZATION_NAME = "Verify My Identity"
-

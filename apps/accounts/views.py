@@ -3,7 +3,6 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
@@ -12,8 +11,7 @@ from .forms import (PasswordResetForm, PasswordResetRequestForm)
 from .models import UserProfile, ValidPasswordResetKey
 
 from .forms import (AccountSettingsForm,
-                     LoginForm,
-                     SignupForm)
+                    SignupForm)
 
 from .utils import validate_activation_key
 from django.conf import settings
@@ -114,8 +112,6 @@ def create_account(request):
                       {'name': name, 'form': SignupForm(initial=form_data)})
 
 
-
-
 def password_reset_email_verify(request, reset_password_key=None):
     vprk = get_object_or_404(ValidPasswordResetKey,
                              reset_password_key=reset_password_key)
@@ -140,8 +136,6 @@ def password_reset_email_verify(request, reset_password_key=None):
                    'reset_password_key': reset_password_key})
 
 
-
-
 def activation_verify(request, activation_key):
     if validate_activation_key(activation_key):
         messages.success(request,
@@ -150,6 +144,7 @@ def activation_verify(request, activation_key):
         messages.error(request,
                        'This key does not exist or has already been used.')
     return HttpResponseRedirect(reverse('mfa_login'))
+
 
 def forgot_password(request):
     name = _('Forgot Password')
@@ -164,9 +159,10 @@ def forgot_password(request):
                 try:
                     u = User.objects.get(username=data['email'])
                 except(User.DoesNotExist):
-                    messages.error(request,
-                                   'A user with the email or username supplied '
-                                   'does not exist.')
+                    messages.error(
+                        request,
+                        'A user with the email or username supplied '
+                        'does not exist.')
                     return HttpResponseRedirect(reverse('forgot_password'))
 
             # success - user found so ask some question
@@ -180,4 +176,3 @@ def forgot_password(request):
         return render(request,
                       'generic/bootstrapform.html',
                       {'name': name, 'form': PasswordResetRequestForm()})
-

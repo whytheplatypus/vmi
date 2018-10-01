@@ -2,7 +2,7 @@
 from django.conf.urls import url
 from .views import (account_settings,
                     mylogout, create_account,
-                    forgot_password,activation_verify)
+                    forgot_password, activation_verify)
 
 from .sms_mfa_views import mfa_login, mfa_code_confirm
 

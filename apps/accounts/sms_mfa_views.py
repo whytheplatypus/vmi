@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404
-from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
@@ -22,13 +21,17 @@ def mfa_code_confirm(request, uid):
             if code != mfac.code:
                 mfac.tries_counter = mfac.tries_counter + 1
                 if mfac.tries_counter > 3:
-                    messages.error(request,
-                                   _('Maximum tries reached. The authentication attempt has been invalidated.'))
+                    messages.error(
+                        request,
+                        _('Maximum tries reached.'
+                          'The authentication attempt has been invalidated.'))
                     mfac.delete()
                 else:
                     mfac.save()
-                messages.error(request,
-                               _('The code supplied did not match what was sent. Please try again.'))
+                messages.error(
+                    request,
+                    _('The code supplied did not match what was sent.'
+                      'Please try again.'))
 
                 return render(
                     request, 'generic/bootstrapform.html', {'form': form})
@@ -47,9 +50,11 @@ def mfa_code_confirm(request, uid):
                 return HttpResponseRedirect(reverse('home'))
             else:
                 # The user exists but is_active=False
-                messages.error(request,
-                               _('Your account has not been activated. Please check your email for a link to '
-                                 'activate your account.'))
+                messages.error(
+                    request,
+                    _('Your account has not been activated.'
+                      'Please check your email for a link to'
+                      'activate your account.'))
                 return render(
                     request, 'generic/bootstrapform.html', {'form': form})
 
@@ -81,13 +86,18 @@ def mfa_login(request):
                     #         user=up.user, mode=up.mfa_login_mode)
                     #     # Send code and redirect
                     #     if up.mfa_login_mode == "SMS":
-                    #         messages.info(request,
-                    #                       _('An access code was sent to your mobile device. Please enter it here.'))
+                    #         messages.info(
+                    #              request,
+                    #             _('An access code was sent to your mobile'
+                    #               'device. Please enter it here.'))
                     #     if up.mfa_login_mode == "EMAIL":
-                    #         messages.info(request,
-                    #                       _('An access code was sent to your email. Please enter it here.'))
-                    #     return HttpResponseRedirect(reverse('mfa_code_confirm',
-                    #                                         args=(mfac.uid,)))
+                    #         messages.info(
+                    #             request,
+                    #             _('An access code was sent to your email.'
+                    #               'Please enter it here.'))
+                    #     return HttpResponseRedirect(
+                    #         reverse('mfa_code_confirm',
+                    #         args=(mfac.uid,)))
                     # Else, just login as normal without MFA
                     login(request, user)
                     next_param = request.GET.get('next', '')

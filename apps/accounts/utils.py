@@ -4,6 +4,7 @@ from .models import ActivationKey
 
 # Copyright Videntity Systems Inc.
 
+
 def validate_activation_key(activation_key):
     utc = pytz.UTC
     try:

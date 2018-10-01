@@ -1,13 +1,13 @@
-from random import randint
-
 from django import forms
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User, Group
 from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model
 from .models import UserProfile, create_activation_key
 
 # Copyright Videntity Systems Inc.
+
+User = get_user_model()
 
 
 class PasswordResetRequestForm(forms.Form):
@@ -63,8 +63,8 @@ class SignupForm(forms.Form):
     first_name = forms.CharField(max_length=100, label=_("First Name"))
     last_name = forms.CharField(max_length=100, label=_("Last Name"))
     mobile_phone_number = forms.CharField(required=False,
-                                             label=_("Mobile Phone Number"),
-                                             max_length = 10)
+                                          label=_("Mobile Phone Number"),
+                                          max_length=10)
     password1 = forms.CharField(widget=forms.PasswordInput, max_length=128,
                                 label=_("Password"))
     password2 = forms.CharField(widget=forms.PasswordInput, max_length=128,
@@ -103,7 +103,6 @@ class SignupForm(forms.Form):
             raise forms.ValidationError(_('This username is already taken.'))
         return username
 
-
     def save(self):
 
         new_user = User.objects.create_user(
@@ -114,10 +113,10 @@ class SignupForm(forms.Form):
             email=self.cleaned_data['email'],
             is_active=True)
 
-        UserProfile.objects.create(user=new_user,
-                                   mobile_phone_number=self.cleaned_data['mobile_phone_number'],
-                                   )
-        
+        UserProfile.objects.create(
+            user=new_user,
+            mobile_phone_number=self.cleaned_data['mobile_phone_number'],
+        )
         # Need to add user groups here.
         # group = Group.objects.get(name='BlueButton')
         # new_user.groups.add(group)
@@ -133,10 +132,10 @@ class AccountSettingsForm(forms.Form):
     first_name = forms.CharField(max_length=100, label=_('First Name'))
     last_name = forms.CharField(max_length=100, label=_('Last Name'))
     mobile_phone_number = forms.CharField(max_length=10, required=False,
-                                             help_text=_("US numbers only. "
-                                                         "We use this for "
-                                                         "multi-factor "
-                                                         "authentication."))
+                                          help_text=_("US numbers only. "
+                                                      "We use this for "
+                                                      "multi-factor "
+                                                      "authentication."))
     organization_name = forms.CharField(max_length=100,
                                         label=_('Organization Name'),
                                         required=False)

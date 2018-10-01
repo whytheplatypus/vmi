@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 import boto3
-from django.urls import reverse
 from .emails import (send_password_reset_url_via_email,
                      send_activation_key_via_email,
                      mfa_via_email)
@@ -18,7 +17,6 @@ from .emails import (send_password_reset_url_via_email,
 # Copyright Videntity Systems Inc.
 
 __author__ = "Alan Viars"
-
 
 
 @python_2_unicode_compatible
@@ -31,7 +29,6 @@ class UserProfile(models.Model):
         max_length=12,
         help_text=_('US numbers only.'),
     )
-
 
     def __str__(self):
         name = '%s %s (%s)' % (self.user.first_name,
@@ -46,12 +43,14 @@ class UserProfile(models.Model):
             name = '%s %s' % (self.user.first_name, self.user.last_name)
         return name
 
+
 MFA_CHOICES = (
     ('', 'None'),
     ('EMAIL', "Email"),
     ('FIDO', "FIDO U2F"),
     ('SMS', "Text Message (SMS)"),
 )
+
 
 @python_2_unicode_compatible
 class MFACode(models.Model):
@@ -121,11 +120,9 @@ class MFACode(models.Model):
         super(MFACode, self).save(**kwargs)
 
 
-
-
 @python_2_unicode_compatible
 class ActivationKey(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     key = models.CharField(default=uuid.uuid4, max_length=40)
     expires = models.DateTimeField(blank=True)
 

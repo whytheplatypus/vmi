@@ -2,10 +2,8 @@ import random
 from django.conf import settings
 from django.urls import reverse
 from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
 
 # Copyright Videntity Systems Inc.
-
 
 
 def random_secret(y=40):
@@ -43,7 +41,7 @@ def mfa_via_email(user, code):
     The Team
 
     """ % (code)
-    msg = EmailMultiAlternatives(subject, text_content, from_email, [to,])
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to, ])
     msg.attach_alternative(html_content, 'text/html')
     msg.send()
 
@@ -81,7 +79,7 @@ def send_password_reset_url_via_email(user, reset_key):
         The Team
 
         """ % (link)
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to,])
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to, ])
         msg.attach_alternative(html_content, 'text/html')
         msg.send()
 
@@ -116,9 +114,7 @@ def send_activation_key_via_email(user, signup_key):
        The Team
 
        """ % (user.first_name, activation_link)
-    
-    msg = EmailMultiAlternatives(subject, text_content, from_email, [to,])
+
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to, ])
     msg.attach_alternative(html_content, 'text/html')
     msg.send()
-
-
