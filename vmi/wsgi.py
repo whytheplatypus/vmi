@@ -12,7 +12,7 @@ from .ssmenv import EC2ParameterStore
 
 from django.core.wsgi import get_wsgi_application
 
-parameter_store = EC2ParameterStore()
+parameter_store = EC2ParameterStore(region_name="us-west-1")
 django_parameters = parameter_store.get_parameters_by_path('/dev/', strip_path=True)
 EC2ParameterStore.set_env(django_parameters)
 
