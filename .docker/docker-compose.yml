@@ -1,0 +1,12 @@
+version: '3'
+services:
+  vmi:
+    build:
+      context: ../
+      dockerfile: .docker/Dockerfile
+    ports:
+      - "8000:80"
+    environment:
+            - OAUTHLIB_INSECURE_TRANSPORT=true
+            - ALLOWED_HOSTS=localhost
+            - OIDC_ISSUER=http://localhost:8000
