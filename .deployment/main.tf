@@ -18,6 +18,33 @@ data "aws_security_group" "default" {
   name   = "default"
 }
 
+# sec group
+resource "aws_security_group" "vmi" {
+  vpc_id      = "${data.aws_vpc.default.id}"
+  name        = "vmi-${var.environment}"
+  description = "App ${var.environment} security group"
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags {
+    environment = "${var.environment}"
+  }
+}
+
+resource "aws_security_group_rule" "allow-postgres" {
+  type                     = "ingress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  security_group_id        = "${data.aws_security_group.default.id}"
+  source_security_group_id = "${aws_security_group.vmi.id}"
+}
+
 variable "environment" {
   type = "string"
 }
@@ -69,6 +96,7 @@ module "db" {
   username = "${var.db_username}"
   password               = "${random_string.db_password.result}"
   port                   = "5432"
+  name                   = "vmi"
   vpc_security_group_ids = ["${data.aws_security_group.default.id}"]
   maintenance_window     = "Mon:00:00-Mon:03:00"
   backup_window          = "03:00-06:00"
@@ -88,7 +116,7 @@ module "db" {
 }
 
 resource "aws_ssm_parameter" "db_uri" {
-  name        = "/${var.environment}/database/DATBASE_CUSTOM"
+  name        = "/${var.environment}/database/DATABASES_CUSTOM"
   description = "Database uri"
   type        = "SecureString"
   value       = "postgres://${var.db_username}:${random_string.db_password.result}@${module.db.this_db_instance_endpoint}/vmi"
@@ -344,6 +372,21 @@ data "aws_iam_policy_document" "default" {
   }
 
   statement {
+    sid = "AllowReadSSMParameters"
+
+    actions = [
+      "ssm:DescribeParameters",
+      "ssm:GetParameters",
+    ]
+
+    resources = [
+      "arn:aws:ssm:us-west-1:075999491860:parameter/${var.environment}/*",
+    ]
+
+    effect = "Allow"
+  }
+
+  statement {
     sid = "AllowDeleteCloudwatchLogGroups"
 
     actions = [
@@ -413,6 +456,12 @@ resource "aws_elastic_beanstalk_environment" "default" {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
     value     = "${aws_iam_instance_profile.ec2.name}"
+  }
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "SecurityGroups"
+    value     = "${aws_security_group.vmi.id}"
   }
 }
 
