@@ -1,8 +1,16 @@
 #!/usr/bin/env python
 import os
 import sys
+from vmi.ssmenv import EC2ParameterStore
 
 if __name__ == '__main__':
+
+    try:
+        parameter_store = EC2ParameterStore(region_name="us-west-1")
+        django_parameters = parameter_store.get_parameters_by_path('/dev/', strip_path=True)
+        EC2ParameterStore.set_env(django_parameters)
+    except Exception:
+        pass
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vmi.settings')
     try:
