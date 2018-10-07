@@ -10,12 +10,12 @@ clean:
 	docker-compose -f .development/docker-compose.yml down
 
 docker-login:
-	@eval "$(shell aws ecr get-login --region $(AWS_REGION) --no-include-email)"
+	@eval "$(shell aws ecr get-login --region $(AWS_DEFAULT_REGION) --no-include-email)"
 
 build: docker-login
 	docker build -t vmi:latest -f .docker/Dockerfile .
-	docker tag vmi "$(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/vmi:$(GIT_HASH)"
-	docker push "$(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/vmi:$(GIT_HASH)"
+	docker tag vmi "$(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_DEFAULT_REGION).amazonaws.com/vmi:$(GIT_HASH)"
+	docker push "$(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_DEFAULT_REGION).amazonaws.com/vmi:$(GIT_HASH)"
 
 init:
 	terraform init .deployment/

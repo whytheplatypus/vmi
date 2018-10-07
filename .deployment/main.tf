@@ -1,5 +1,11 @@
-provider "aws" {
-  region = "us-west-1"
+provider "aws" {}
+
+terraform {
+  backend "s3" {
+    bucket  = "videntity.terraform-state-dev"
+    key     = "vmi/terraform.tfstate"
+    encrypt = true
+  }
 }
 
 ##############################################################
@@ -68,9 +74,8 @@ variable "db_username" {
 }
 
 resource "random_string" "db_password" {
-  length           = 16
-  special          = true
-  override_special = "/@\" "
+  length  = 16
+  special = false
 }
 
 #####
@@ -89,7 +94,6 @@ module "db" {
 
   # kms_key_id        = "arm:aws:kms:<region>:<account id>:key/<kms key id>"
 
-  name = "vmi"
   # NOTE: Do NOT use 'user' as the value for 'username' as it throws:
   # "Error creating DB Instance: InvalidParameterValue: MasterUsername
   # user cannot be used as it is a reserved word used by the engine"
@@ -116,7 +120,7 @@ module "db" {
 }
 
 resource "aws_ssm_parameter" "db_uri" {
-  name        = "/${var.environment}/database/DATABASES_CUSTOM"
+  name        = "/${var.environment}/vmi/database/DATABASES_CUSTOM"
   description = "Database uri"
   type        = "SecureString"
   value       = "postgres://${var.db_username}:${random_string.db_password.result}@${module.db.this_db_instance_endpoint}/vmi"
@@ -466,7 +470,7 @@ resource "aws_elastic_beanstalk_environment" "default" {
 }
 
 resource "aws_ssm_parameter" "allowed_host" {
-  name        = "/${var.environment}/eb/ALLOWED_HOSTS"
+  name        = "/${var.environment}/vmi/eb/ALLOWED_HOSTS"
   description = "Server hostname"
   type        = "SecureString"
   value       = "${aws_elastic_beanstalk_environment.default.cname}"
@@ -477,7 +481,7 @@ resource "aws_ssm_parameter" "allowed_host" {
 }
 
 resource "aws_ssm_parameter" "oidc_issuer" {
-  name        = "/${var.environment}/eb/OIDC_ISSUER"
+  name        = "/${var.environment}/vmi/eb/OIDC_ISSUER"
   description = "Server hostname"
   type        = "SecureString"
   value       = "${aws_elastic_beanstalk_environment.default.cname}"
