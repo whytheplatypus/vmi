@@ -10,8 +10,7 @@ clean:
 	docker-compose -f .development/docker-compose.yml down
 
 docker-login:
-	login="$(shell aws ecr get-login --region $(AWS_REGION))"
-	${login}
+	@eval "$(shell aws ecr get-login --region $(AWS_REGION) --no-include-email)"
 
 build: docker-login
 	docker build -t vmi:latest -f .docker/Dockerfile .
@@ -22,9 +21,8 @@ init:
 	terraform init .deployment/
 
 plan: init
-	terraform plan -var 'environment=$(ENVIRONMENT)' -var 'version=$(GIT_HASH)' -var 'db_username=devuser' .deployment/
+	terraform plan -var 'environment=$(ENVIRONMENT)' -var 'version=$(GIT_HASH)' -var 'db_username=$(DB_USER)' .deployment/
 
 deploy: plan
-	terraform init .deployment/
-	terraform apply -var 'environment=$(ENVIRONMENT)' -var 'version=$(GIT_HASH)' -var 'db_username=devuser' .deployment/
+	terraform apply -var 'environment=$(ENVIRONMENT)' -var 'version=$(GIT_HASH)' -var 'db_username=$(DB_USER)' .deployment/
 	
