@@ -89,7 +89,7 @@ module "db" {
 
   # kms_key_id        = "arm:aws:kms:<region>:<account id>:key/<kms key id>"
 
-  name = "${var.dbname}"
+  name = "vmi"
   # NOTE: Do NOT use 'user' as the value for 'username' as it throws:
   # "Error creating DB Instance: InvalidParameterValue: MasterUsername
   # user cannot be used as it is a reserved word used by the engine"
