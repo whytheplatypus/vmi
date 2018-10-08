@@ -384,36 +384,6 @@ data "aws_iam_policy_document" "default" {
   }
 
   statement {
-    sid = "AllowReadSSMParameters"
-
-    actions = [
-      "ssm:DescribeParameters",
-      "ssm:GetParameters",
-    ]
-
-    resources = [
-      "arn:aws:ssm:us-east-1:075999491860:parameter/${var.environment}/vmi/*",
-    ]
-
-    effect = "Allow"
-  }
-
-  statement {
-    sid = "AllowSendSESEmails"
-
-    actions = [
-      "ses:SendEmail",
-      "ses:SendRawEmail",
-    ]
-
-    resources = [
-      "arn:aws:ses:us-east-1:567024208163:identity/alpha.verifymyidentity.com",
-    ]
-
-    effect = "Allow"
-  }
-
-  statement {
     sid = "AllowDeleteCloudwatchLogGroups"
 
     actions = [
