@@ -87,7 +87,7 @@ module "db" {
   identifier = "${var.dbname}"
 
   engine            = "postgres"
-  engine_version    = "9.6.3"
+  engine_version    = "9.6.6"
   instance_class    = "${var.db_size}"
   allocated_storage = 5
   storage_encrypted = false
@@ -242,6 +242,11 @@ resource "aws_iam_role_policy_attachment" "ecr-readonly" {
 resource "aws_iam_role_policy_attachment" "ssm-readonly" {
   role       = "${aws_iam_role.ec2.name}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "ses-all" {
+  role       = "${aws_iam_role.ec2.name}"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSESFullAccess"
 }
 
 data "aws_iam_policy_document" "default" {
@@ -399,7 +404,7 @@ data "aws_iam_policy_document" "default" {
     ]
 
     resources = [
-      "arn:aws:ses:us-east-1:567024208163:identity/verifymyidentity.com",
+      "arn:aws:ses:us-east-1:567024208163:identity/alpha.verifymyidentity.com",
     ]
 
     effect = "Allow"
