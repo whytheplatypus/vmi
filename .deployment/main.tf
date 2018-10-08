@@ -473,7 +473,7 @@ resource "aws_ssm_parameter" "allowed_host" {
   name        = "/${var.environment}/vmi/eb/ALLOWED_HOSTS"
   description = "Server hostname"
   type        = "SecureString"
-  value       = "${aws_elastic_beanstalk_environment.default.cname}"
+  value       = "alpha.verifymyidentity.com"
 
   tags {
     environment = "${var.environment}"
@@ -484,7 +484,7 @@ resource "aws_ssm_parameter" "oidc_issuer" {
   name        = "/${var.environment}/vmi/eb/OIDC_ISSUER"
   description = "Server hostname"
   type        = "SecureString"
-  value       = "${aws_elastic_beanstalk_environment.default.cname}"
+  value       = "https://alpha.verifymyidentity.com"
 
   tags {
     environment = "${var.environment}"
