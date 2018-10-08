@@ -15,7 +15,9 @@ from django.core.wsgi import get_wsgi_application
 try:
     parameter_store = EC2ParameterStore(region_name="us-east-1")
     # Automate env (dev)
-    django_parameters = parameter_store.get_parameters_by_path('/dev/vmi/', strip_path=True)
+    django_parameters = parameter_store.get_parameters_by_path(
+        '/dev/vmi/',
+        strip_path=True)
     EC2ParameterStore.set_env(django_parameters)
 except Exception:
     pass

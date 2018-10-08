@@ -83,8 +83,9 @@ WSGI_APPLICATION = 'vmi.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=env('DATABASES_CUSTOM',
-                                                  'sqlite:///{}/db.sqlite3'.format(BASE_DIR))),
+    'default': dj_database_url.config(
+        default=env('DATABASES_CUSTOM',
+                    'sqlite:///{}/db.sqlite3'.format(BASE_DIR))),
 }
 
 
