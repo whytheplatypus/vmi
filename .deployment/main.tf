@@ -384,7 +384,22 @@ data "aws_iam_policy_document" "default" {
     ]
 
     resources = [
-      "arn:aws:ssm:us-west-1:075999491860:parameter/${var.environment}/*",
+      "arn:aws:ssm:us-west-1:075999491860:parameter/${var.environment}/vmi/*",
+    ]
+
+    effect = "Allow"
+  }
+
+  statement {
+    sid = "AllowSendSESEmails"
+
+    actions = [
+      "ses:SendEmail",
+      "ses:SendRawEmail",
+    ]
+
+    resources = [
+      "arn:aws:ses:us-east-1:567024208163:identity/verifymyidentity.com",
     ]
 
     effect = "Allow"
