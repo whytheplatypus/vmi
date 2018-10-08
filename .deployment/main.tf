@@ -156,6 +156,9 @@ resource "aws_s3_bucket_object" "default" {
   bucket  = "${aws_s3_bucket.default.id}"
   key     = "${var.version}/Dockerrun.aws.json"
   content = "${data.template_file.Dockerrun.rendered}"
+  lifecycle = {
+    create_before_destroy = true
+  }
 }
 
 #
@@ -389,7 +392,7 @@ data "aws_iam_policy_document" "default" {
     ]
 
     resources = [
-      "arn:aws:ssm:us-west-1:075999491860:parameter/${var.environment}/vmi/*",
+      "arn:aws:ssm:us-east-1:075999491860:parameter/${var.environment}/vmi/*",
     ]
 
     effect = "Allow"
@@ -456,6 +459,9 @@ resource "aws_elastic_beanstalk_application_version" "default" {
   description = "VMI application version created by terraform"
   bucket      = "${aws_s3_bucket.default.id}"
   key         = "${aws_s3_bucket_object.default.id}"
+  lifecycle   = {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_elastic_beanstalk_environment" "default" {
