@@ -88,7 +88,7 @@ def send_activation_key_via_email(user, signup_key):
     """Do not call this directly.  Instead use create_signup_key in utils."""
     subject = '[%s]Verify your email.' % (settings.ORGANIZATION_NAME)
     from_email = settings.DEFAULT_FROM_EMAIL
-    to = user.email
+    to = [user.email, ]
     activation_link = '%s%s' % (settings.HOSTNAME_URL,
                                 reverse('activation_verify',
                                         args=(signup_key,)))
@@ -115,6 +115,7 @@ def send_activation_key_via_email(user, signup_key):
 
        """ % (user.first_name, activation_link)
 
-    msg = EmailMultiAlternatives(subject, text_content, from_email, [to, ])
+    msg = EmailMultiAlternatives(subject=subject, body=text_content,
+                                 to=to, from_email=from_email)
     msg.attach_alternative(html_content, 'text/html')
     msg.send()
