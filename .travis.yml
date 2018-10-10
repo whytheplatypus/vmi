@@ -2,7 +2,7 @@ language: python
 python:
   - "3.6"
 
-sudo: false
+sudo: required
 
 services:
   - docker
@@ -34,7 +34,7 @@ jobs:
 stages:
   - test
   - name: build
-    if: branch = master AND type = push
+    #if: branch = master AND type = push
   - name: deploy
     if: branch = master AND type = push
 
