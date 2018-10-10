@@ -4,6 +4,9 @@ python:
 
 sudo: false
 
+services:
+  - docker
+
 env:
   - TOX_ENV=py36
   - TOX_ENV=flake8
@@ -20,13 +23,15 @@ jobs:
   include:
     - stage: build
       script: make build
+      if: branch = master AND type = push
     - stage: deploy
       script: make deploy
+      if: branch = master AND type = push
 
 stages:
   - test
   - name: build
-    if: branch = master
+    if: head_branch = master AND type = push
   - name: deploy
-    if: branch = master
+    if: head_branch = master AND type = push
 
