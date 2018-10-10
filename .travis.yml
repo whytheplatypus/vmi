@@ -25,7 +25,7 @@ after_success:
 jobs:
   include:
     - stage: build
-      install: pip install --user awscli # install aws cli w/o sudo
+      install: pip install awscli # install aws cli w/o sudo
       env: PATH=$PATH:$HOME/.local/bin # put aws in the path
       script: make build
     - stage: deploy
