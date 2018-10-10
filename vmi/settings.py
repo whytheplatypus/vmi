@@ -139,9 +139,6 @@ MESSAGE_TAGS = {
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'sitestatic'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'sitestatic'),
-]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
