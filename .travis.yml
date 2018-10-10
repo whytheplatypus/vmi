@@ -19,6 +19,11 @@ install:
 
 script: tox -e $TOX_ENV
 
+after_success:
+  - docker --version  # document the version travis is using
+  - pip install --user awscli # install aws cli w/o sudo
+  - export PATH=$PATH:$HOME/.local/bin # put aws in the path
+
 jobs:
   include:
     - stage: build
@@ -29,7 +34,7 @@ jobs:
 stages:
   - test
   - name: build
-    if: head_branch = master AND type = push
+    if: branch = master AND type = push
   - name: deploy
-    if: head_branch = master AND type = push
+    if: branch = master AND type = push
 
