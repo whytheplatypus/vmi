@@ -2,7 +2,10 @@ language: python
 python:
   - "3.6"
 
-sudo: false
+sudo: required
+
+services:
+  - docker
 
 env:
   - TOX_ENV=py36
@@ -15,3 +18,24 @@ install:
   - pip install tox
 
 script: tox -e $TOX_ENV
+
+after_success:
+  - docker --version  # document the version travis is using
+
+jobs:
+  include:
+    - stage: build
+      install: pip install awscli # install aws cli w/o sudo
+      env: PATH=$PATH:$HOME/.local/bin # put aws in the path
+      script: make build
+    - stage: deploy
+      env: ENVIRONMENT=dev # put aws in the path
+      script: make deploy
+
+stages:
+  - test
+  - name: build
+    if: branch = master AND type = push
+  - name: deploy
+    if: branch = master AND type = push
+
