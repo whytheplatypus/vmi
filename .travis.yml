@@ -29,6 +29,7 @@ jobs:
       env: PATH=$PATH:$HOME/.local/bin # put aws in the path
       script: make build
     - stage: deploy
+      env: ENVIRONMENT=dev # put aws in the path
       script: make deploy
 
 stages:
