@@ -15,3 +15,18 @@ install:
   - pip install tox
 
 script: tox -e $TOX_ENV
+
+jobs:
+  include:
+    - stage: build
+      script: make build
+    - stage: deploy
+      script: make deploy
+
+stages:
+  - test
+  - name: build
+    if: branch = master
+  - name: deploy
+    if: branch = master
+
