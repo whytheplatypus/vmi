@@ -23,10 +23,8 @@ jobs:
   include:
     - stage: build
       script: make build
-      if: branch = master AND type = push
     - stage: deploy
       script: make deploy
-      if: branch = master AND type = push
 
 stages:
   - test
