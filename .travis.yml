@@ -8,12 +8,8 @@ services:
   - docker
 
 env:
-  global:
-    - AWS_ACCESS_KEY_ID=None
-    - AWS_SECRET_ACCESS_KEY=None
-  matrix:
-    - TOX_ENV=py36
-    - TOX_ENV=flake8
+  - TOX_ENV=py36
+  - TOX_ENV=flake8
 
 matrix:
   fast_finish: true
@@ -30,10 +26,16 @@ jobs:
   include:
     - stage: build
       install: pip install awscli # install aws cli w/o sudo
-      env: PATH=$PATH:$HOME/.local/bin # put aws in the path
+      env:
+        - PATH=$PATH:$HOME/.local/bin # put aws in the path
+        - AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY
       script: make build
     - stage: deploy
-      env: ENVIRONMENT=dev # put aws in the path
+      env:
+        - ENVIRONMENT=dev # put aws in the path
+        - AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY
       script: make deploy
 
 stages:
