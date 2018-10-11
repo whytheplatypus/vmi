@@ -14,9 +14,10 @@ services:
             dockerfile: .development/Dockerfile
     command: python3 manage.py runserver 0.0.0.0:8000
     environment:
-            - DATABASES_CUSTOM=postgres://postgres:toor@db:5432/vmi
-            - OAUTHLIB_INSECURE_TRANSPORT=true
-            - OIDC_ISSUER=http://localhost:8000
+      - DATABASES_CUSTOM=postgres://postgres:toor@db:5432/vmi
+      - OAUTHLIB_INSECURE_TRANSPORT=true
+      - OIDC_ISSUER=http://localhost:8000
+      - ALLOWED_HOSTS=localhost
     volumes:
       - ../:/code
     ports:
