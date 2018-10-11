@@ -33,7 +33,7 @@ jobs:
       script: make deploy
 
 stages:
-  - test
+  - name: test
     env:
       - AWS_ACCESS_KEY_ID=None
       - AWS_SECRET_ACCESS_KEY=None
