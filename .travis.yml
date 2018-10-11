@@ -24,6 +24,10 @@ after_success:
 
 jobs:
   include:
+    - stage: test
+      env:
+        - AWS_ACCESS_KEY_ID=None
+        - AWS_SECRET_ACCESS_KEY=None
     - stage: build
       install: pip install awscli # install aws cli w/o sudo
       env: PATH=$PATH:$HOME/.local/bin # put aws in the path
@@ -33,10 +37,7 @@ jobs:
       script: make deploy
 
 stages:
-  - name: test
-    env:
-      - AWS_ACCESS_KEY_ID=None
-      - AWS_SECRET_ACCESS_KEY=None
+  - test
   - name: build
     if: branch = master AND type = push
   - name: deploy
