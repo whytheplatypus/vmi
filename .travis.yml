@@ -8,8 +8,12 @@ services:
   - docker
 
 env:
-  - TOX_ENV=py36
-  - TOX_ENV=flake8
+  global:
+    - AWS_ACCESS_KEY_ID=None
+    - AWS_SECRET_ACCESS_KEY=None
+  matrix:
+    - TOX_ENV=py36
+    - TOX_ENV=flake8
 
 matrix:
   fast_finish: true
@@ -24,11 +28,6 @@ after_success:
 
 jobs:
   include:
-    - stage: test
-      env:
-        global:
-          - AWS_ACCESS_KEY_ID=None
-          - AWS_SECRET_ACCESS_KEY=None
     - stage: build
       install: pip install awscli # install aws cli w/o sudo
       env: PATH=$PATH:$HOME/.local/bin # put aws in the path
