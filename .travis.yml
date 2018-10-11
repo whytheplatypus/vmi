@@ -34,6 +34,9 @@ jobs:
 
 stages:
   - test
+    env:
+      - AWS_ACCESS_KEY_ID=None
+      - AWS_SECRET_ACCESS_KEY=None
   - name: build
     if: branch = master AND type = push
   - name: deploy
