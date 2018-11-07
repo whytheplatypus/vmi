@@ -27,9 +27,6 @@ docker-compose with the --build option.
 
 ## Associated Projects
 
-[VerifyMyIdentity - VMI](https://github.com/TransparentHealth/vmi), 
-a standards-focused OpenID Connect Identity Provider.
-
 [ShareMyHealth](https://github.com/TransparentHealth/sharemyhealth) is designed as a 
 consumer-mediated health information exchange.  
 ShareMyHealth acts as a relying party to 
