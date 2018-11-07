@@ -37,5 +37,3 @@ ShareMyHealth acts as a relying party to
 vmi uses css resources from Bootstrap (v.3.3.x) and 
 Font-Awesome (v4.4.x). 
 
-More to come... 
-
