@@ -1,4 +1,5 @@
 from datetime import timedelta
+from oauthlib.errors import LoginRequired
 from oauth2_provider.oauth2_validators import (
     OAuth2Validator,
     GRANT_TYPE_MAPPING,
@@ -38,10 +39,27 @@ class RequestValidator(OAuth2Validator):
         else:
             return False
 
+    def validate_silent_login(self, request):
+        return False
+
+    def validate_silent_authorization(self, request):
+        return False
+
     def validate_user_match(self, id_token_hint, scopes, claims, request):
+        # Also using to check max_age
+        self.validate_max_age(request)
         if id_token_hint is None:
             return True
         return False
+
+    def validate_max_age(self, request):
+        if request.max_age is not None:
+            last_login = getattr(request.user, 'last_login', None)
+            if last_login is not None:
+                login_delta = datetime.datetime.now() - last_login
+                if login_delta.seconds() > request.max_age:
+                    msg = "Relying part requests that the session user refresh their session"
+                    raise LoginRequired(request=request, description=msg)
 
     def get_id_token(self, token, token_handler, request):
         cp = ClaimsProvider(user=request.user, token=token, request=request)
