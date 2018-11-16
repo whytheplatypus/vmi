@@ -6,8 +6,6 @@ from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from rest_framework import permissions
 from django.urls import reverse
-from django.http.request import QueryDict
-from oauthlib.oauth2.rfc6749.errors import LoginRequired
 from oauth2_provider import scopes
 from oauth2_provider.exceptions import OAuthToolkitError
 from oauth2_provider.models import get_application_model
@@ -116,9 +114,11 @@ class AuthorizationView(OAuth2AuthorizationView):
         if max_age is not None:
             last_login = getattr(request.user, 'last_login', None)
             if last_login is not None:
-                login_delta = datetime.datetime.now().timestamp() - last_login.timestamp()
+                login_delta = datetime.datetime.now().timestamp() - last_login.timestamp()  # noqa
                 if login_delta > float(max_age):
-                    raise AuthenticationRequired(request.get_full_path())
+                    raise AuthenticationRequired(
+                        request.get_full_path()
+                    )
 
     def get(self, request, *args, **kwargs):
         kwargs['nonce'] = request.GET.get('nonce', None)
