@@ -32,7 +32,11 @@ class Migration(migrations.Migration):
             name='value',
             field=models.CharField(blank=True, db_index=True, default='', max_length=255),
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
+            model_name='organization',
+            name='point_of_contact',
+        ),
+        migrations.AddField(
             model_name='organization',
             name='point_of_contact',
             field=models.ForeignKey(on_delete='PROTECT', to=settings.AUTH_USER_MODEL),
