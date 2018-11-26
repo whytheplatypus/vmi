@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='organization',
             name='point_of_contact',
-            field=models.ForeignKey(on_delete='PROTECT', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete='PROTECT', to=settings.AUTH_USER_MODEL, blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='organizationidentifier',
