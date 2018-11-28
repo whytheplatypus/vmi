@@ -121,7 +121,6 @@ class AuthorizationView(OAuth2AuthorizationView):
                 request.POST = request.POST.copy()
                 request.POST['prompt'] = False
 
-
     def validate_max_age(self, request):
         max_age = request.GET.get('max_age', None)
         if max_age is not None:
