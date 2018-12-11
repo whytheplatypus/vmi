@@ -4,7 +4,7 @@ cat << EOF
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "567024208163.dkr.ecr.us-east-1.amazonaws.com/vmi:$GIT_SHA",
+    "Name": "567024208163.dkr.ecr.us-east-1.amazonaws.com/vmi:$1",
     "Update": "true"
   },
   "Ports": [
