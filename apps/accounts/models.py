@@ -33,6 +33,31 @@ GENDER_CHOICES = (('M', 'Male'),
                   ('U', 'Unknown'))
 
 
+# These are "mockups" for now.
+# class MemberOrganizationRelationship(models.Model):
+#     user = models.ForeignKey(get_user_model(), on_delete='PROTECT')
+#     organization = models.ForeignKey(Organization, on_delete='PROTECT', null=True)
+#     summary = models.TextField(blank=True, default='')
+#     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+#     created_date = models.DateField(auto_now_add=True, null=True, blank=True)
+#     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+#
+#     def __str__(self):
+#         return "%s relationship with %s since %s" % (self.user, sself.organization. self.created_at)
+#
+#
+# class MemberOrganizationNotes(models.Model):
+#     mor = models.ForeignKey(MemberOrganizationRelationship, on_delete='PROTECT')
+#     member_note =  models.TextField(blank=True, default='')
+#     organization_note =  models.TextField(blank=True, default='')
+#     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+#     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+#
+#     def __str__(self):
+# return "%s note on  %s on %s" % (self.organization, sself.organization.
+# self.created_at)
+
+
 class IndividualIdentifier(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete='PROTECT', null=True)
     name = models.SlugField(max_length=250, blank=True,
