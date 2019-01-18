@@ -69,6 +69,7 @@ MIDDLEWARE = [
 
 VERIFICATION_BACKENDS = [
     'apps.fido.auth.backends.FIDO2Backend',
+    'apps.mfa.backends.sms.backends.SMSBackend',
 ]
 
 ROOT_URLCONF = 'vmi.urls'
@@ -160,7 +161,7 @@ STATICFILES_DIRS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-    )
+    ),
 }
 
 # OAUTH SETTINGS
