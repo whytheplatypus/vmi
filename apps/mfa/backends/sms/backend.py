@@ -1,4 +1,8 @@
 from .views import CodeView
+from .models import (
+    SMSDevice,
+    SMSCode,
+)
 
 
 class SMSBackend:
@@ -12,12 +16,15 @@ class SMSBackend:
         return SMSDevice.objects.get(pk=device_id)
 
     def start_verification(self, request):
-        if SMSDevice.objects.filter(user=user).exists():
+        if SMSDevice.objects.filter(user=request.user).exists():
             # Generate code
             # save code
             code = SMSCode.objects.create(
-                device=SMSDevice.objects.get(user=user))
+                device=SMSDevice.objects.get(user=request.user))
             # send code
-            print(code)
-            return CodeView.as_view()(request).render()
+            print(code.code)
+            response = CodeView.as_view()(request)
+            if hasattr(response, 'render'):
+                return response.render()
+            return response
         return None

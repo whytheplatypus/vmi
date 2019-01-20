@@ -1,7 +1,20 @@
+import random
 from datetime import timedelta
 from django.db import models
+from django.core.validators import RegexValidator
 from django.conf import settings
 from django.utils import timezone
+
+
+def generate_code():
+    chrs = getattr(settings, "SMS_CODE_CHARSET", 'abcdefghijklmnopqrstuvwxyz1234567890')
+    length = getattr(settings, "SMS_CODE_LENGTH", 6)
+    return ''.join(random.choices(chrs, k=length))
+
+
+def exp_time():
+    offset = timedelta(seconds=getattr(settings, "SMS_CODE_EXP", 30))
+    return timezone.now() + offset
 
 
 class SMSDevice(models.Model):
@@ -23,19 +36,9 @@ class SMSCode(models.Model):
     )
     code = models.CharField(
         db_index=True,
+        max_length=255,
         default=generate_code,
         editable=False,
     )
     expires = models.DateTimeField(blank=True, default=exp_time)
     created_at = models.DateTimeField(auto_now_add=True)
-
-
-def generate_code():
-    chrs = settings.get("SMS_CODE_CHARSET", 'abcdefghijklmnopqrstuvwxyz1234567890')
-    length = settings.get("SMS_CODE_LENGTH", 6)
-    return ''.join(random.choices(chrs, k=length))
-
-
-def exp_time():
-    offset = timedelta(seconds=settings.get("SMS_CODE_EXP", 30))
-    return timezone.now() + offset

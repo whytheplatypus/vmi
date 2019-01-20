@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.ial',
     'apps.fido',
+    'apps.mfa.backends.sms',
 
     # 'django_extensions',
 ]
@@ -69,7 +70,7 @@ MIDDLEWARE = [
 
 VERIFICATION_BACKENDS = [
     'apps.fido.auth.backends.FIDO2Backend',
-    'apps.mfa.backends.sms.backends.SMSBackend',
+    'apps.mfa.backends.sms.backend.SMSBackend',
 ]
 
 ROOT_URLCONF = 'vmi.urls'
