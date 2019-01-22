@@ -13,7 +13,7 @@ def generate_code():
 
 
 def exp_time():
-    offset = timedelta(seconds=getattr(settings, "SMS_CODE_EXP", 30))
+    offset = timedelta(seconds=getattr(settings, "SMS_CODE_EXP", 60))
     return timezone.now() + offset
 
 

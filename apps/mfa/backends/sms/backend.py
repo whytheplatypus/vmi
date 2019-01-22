@@ -1,3 +1,4 @@
+from django.utils import timezone
 from .views import CodeView
 from .models import (
     SMSDevice,
@@ -19,10 +20,10 @@ class SMSBackend:
         if SMSDevice.objects.filter(user=request.user).exists():
             # Generate code
             # save code
-            code = SMSCode.objects.create(
+            code, _ = SMSCode.objects.filter(
+                expires__gt=timezone.now()
+            ).get_or_create(
                 device=SMSDevice.objects.get(user=request.user))
-            # send code
-            print(code.code)
             response = CodeView.as_view()(request)
             if hasattr(response, 'render'):
                 return response.render()
