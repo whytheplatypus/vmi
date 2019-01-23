@@ -14,8 +14,8 @@ class CodeForm(forms.Form):
         if not SMSCode.objects.filter(
             code=data,
             device__user=self.request.user,
-            expires__gt=timezone.now()).exists():
-
+            expires__gt=timezone.now(),
+        ).exists():
             raise forms.ValidationError("Incorrect code!")
 
         # Always return a value to use as the new cleaned data, even if
