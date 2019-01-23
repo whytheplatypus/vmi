@@ -86,7 +86,7 @@ urlpatterns = [
     url("^edit-address/(?P<id>[^/]+)$", edit_address, name='edit_address'),
 
 
-    path("mfa", ManageView.as_view()),
+    path("mfa", ManageView.as_view(), name='mfa-management'),
     path("sms/enable", EnableSMSMFAView.as_view(), name='sms-mfa-enable'),
     path("sms/disable", DisableSMSMFAView.as_view(), name='sms-mfa-disable'),
 ]
