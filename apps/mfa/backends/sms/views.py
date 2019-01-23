@@ -15,7 +15,8 @@ class CodeForm(forms.Form):
             code=data,
             device__user=self.request.user,
             expires__gt=timezone.now()).exists():
-                raise forms.ValidationError("Incorrect code!")
+
+            raise forms.ValidationError("Incorrect code!")
 
         # Always return a value to use as the new cleaned data, even if
         # this method didn't change it.

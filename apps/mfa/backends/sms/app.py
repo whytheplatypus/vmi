@@ -8,4 +8,3 @@ class AuthorizationConfig(AppConfig):
 
     def ready(self):
         from . import signals  # noqa
-

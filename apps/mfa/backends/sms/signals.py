@@ -1,6 +1,7 @@
 import boto3
 from django.db.models.signals import post_save
 
+
 def send_sms_code(sender, instance, created, **kwargs):
     sns = boto3.client('sns')
     number = instance.device.phone_number
@@ -14,5 +15,6 @@ def send_sms_code(sender, instance, created, **kwargs):
             }
         }
     )
+
 
 post_save.connect(send_sms_code, sender='sms.SMSCode')

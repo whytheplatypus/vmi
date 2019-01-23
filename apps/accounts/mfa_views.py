@@ -1,4 +1,3 @@
-from django import forms
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -6,10 +5,7 @@ from apps.mfa.backends.sms.backend import SMSBackend
 from apps.mfa.backends.sms.models import SMSDevice
 from apps.mfa import verify
 
-from django.utils.translation import ugettext_lazy as _
-
 # Copyright Videntity Systems Inc.
-
 
 
 class EnableSMSMFAView(LoginRequiredMixin, FormView):
@@ -44,6 +40,6 @@ class ManageView(LoginRequiredMixin, TemplateView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
 
-        context['available'] = self.request.user.userprofile.get_verified_phone_number() 
-        context['enabled'] = SMSBackend().is_enabled(self.request.user) 
+        context['available'] = self.request.user.userprofile.get_verified_phone_number()
+        context['enabled'] = SMSBackend().is_enabled(self.request.user)
         return context
