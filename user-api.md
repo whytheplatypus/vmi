@@ -1,9 +1,14 @@
 Creating and Modify Users for Consumer Directed Exchange
 ========================================================
 
-The following example illustrates how to create new users in the VerifyMyIdentity, a certified Open ID Connect (OIDC) Identity Provider. The following examples create Community Member accounts for purposes of Consumer Directed Exchange (CDeX).  These API calls shown here are designed to be used by trusted 3rd party applications.
+This document describes how to create and modify users in VerifyMyIdentity. VerifyMyIdentity is an open-source standards-focused certified Open ID Connect (OIDC) Identity Provider. 
+
+The following examples create "Member" accounts for purposes of Consumer Directed Exchange (CDeX). Member is often an synonym for Patient", "Conumser", "Client", and "Community Member".  The API calls shown here are to be used by trusted 3rd party applications.
 
 The field names and structure of the HTTP request\response  bodies mirror and build upon Open ID Connect (OIDC) https://openid.net/specs/openid-connect-core-1_0.html and the iGov Profile for OpenID Connect https://openid.net/specs/openid-igov-openid-connect-1_0-02.html.
+
+Authorization to the API is controlled through OAuth2.
+
 
 
 Create a User (Basic Example)
