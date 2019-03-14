@@ -168,7 +168,7 @@ Request Body for Create
 
     {
     "description": "NY Medicaid card.",
-    "classification": "NE-SUPERIOR-OR-STRONG+",
+    "classification": "ONE-SUPERIOR-OR-STRONG+",
     "exp": "2022-01-01",
     "verifier_subject": "876545671054321",
     "note": "A paper copy of the document is on file.",
@@ -185,12 +185,12 @@ Example Response for Create
     {
     "uid": "97fb9995-fa8b-4719-9f55-65c1c5f4fd1b",
     "description": "NY Medicaid card.",
-    "classification": "NE-SUPERIOR-OR-STRONG+",
+    "classification": "ONE-SUPERIOR-OR-STRONG+",
     "verifier_subject": "876545671054321",
     "note": "A paper copy of the document is on file.",
     "verification_date": "2019-03-04",
     "user": {
-            "subject": 123456789012345
+            "subject": "123456789012345"
     		}
      }
 
@@ -203,13 +203,13 @@ Request Body for Update
 In this exaample the expiration date is updated.
 
     {
-                "uid": "97fb9995-fa8b-4719-9f55-65c1c5f4fd1b",
-    			"description": "NY Medicaid card.",
-    			"classification": "NE-SUPERIOR-OR-STRONG+",
-                "exp": "2028-12-12",
-    			"verifier_subject": "876545671054321",
-    			"note": "A paper copy of the document is on file.",
-    			"verification_date": "2019-03-04"
+    "uid": "97fb9995-fa8b-4719-9f55-65c1c5f4fd1b",
+    "description": "NY Medicaid card.",
+    "classification": "NE-SUPERIOR-OR-STRONG+",
+    "exp": "2028-12-12",
+    "verifier_subject": "876545671054321",
+    "note": "A paper copy of the document is on file.",
+    "verification_date": "2019-03-04"
     }
 
 
@@ -219,28 +219,22 @@ Example Response for Update
 
 
     {
-    
-                "uid": "97fb9995-fa8b-4719-9f55-65c1c5f4fd1b",
-    			"description": "NY Medicaid card.",
-    			"classification": "NE-SUPERIOR-OR-STRONG+",
-                "exp": "2028-12-12",
-    			"verifier_subject": "876545671054321",
-    			"note": "A paper copy of the document is on file.",
-    			"verification_date": "2019-03-04"
-    			"user": {
+     "uid": "97fb9995-fa8b-4719-9f55-65c1c5f4fd1b",
+     "description": "NY Medicaid card.",
+     "classification": "NE-SUPERIOR-OR-STRONG+",
+     "exp": "2028-12-12",
+     "verifier_subject": "876545671054321",
+     "note": "A paper copy of the document is on file.",
+     "verification_date": "2019-03-04"
+    		"user": {
                     "subject": 123456789012345
     			}
      }
 
 
 
-
-
-
-
-
 Adding\Modifying Identifiers
--------------------------
+----------------------------
 
 * HTTP Method: `POST` (to create) `PUT` (to update)
 * Body: application/json
@@ -252,17 +246,14 @@ In most cases, the goal is to move a user's account from level `1` to level `2` 
 
 
 
-
-
-
 Adding a Mediciad ID number
 ---------------------------
 
 
 Request Endpoint: HTTP POST /api/v1/user/123456789012345/identifier/
 
-Request Body for Create
------------------------
+Request Body for Create Identifier
+-------------------------
 
 
             {
@@ -275,8 +266,8 @@ Request Body for Create
 
 
 
-Successful Response for Create
--------------------------------
+Successful Response for Create Identifer
+----------------------------------------
 
 
             {
@@ -291,8 +282,8 @@ Successful Response for Create
     	    }
 
 
-Adding a FHIR Pointers
------------------------
+Adding FHIR Pointers as Identifiers
+-----------------------------------
 
 In the folowing example, two patient ID's to consumer facing API's are added to the user's record.
 The `software_id` field is used as the primary key to uniquely identify a given system. The `issuer` is a string describing the system.  The `type` identifies the type of the data contained in `nu,`  The `endpoint'` is the actual URL for the FHIR Resource server.  The `num` is the actual FHIR patient identier. Despit its name, it need not be a number.
@@ -370,6 +361,9 @@ Addresses are physical addresses.  This works just like the other APIs/
 
 Request
 -------
+
+
+
     	{
         "formatted": "837 State St.\n Schenectady, NY 12307",
     	"street_address": "837 State St.",
