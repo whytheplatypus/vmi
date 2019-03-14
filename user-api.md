@@ -1,16 +1,15 @@
-User Create/Modify User Quick Start - Consumer Directed Exchange
-================================================================
+Creating and Modify Users for Consumer Directed Exchange
+=========================================================
 
-The following example illustrates how to create new users in the VerifyMyIdentity, a certified Open ID Connect (OIDC) Identity Provider. The following examples create Community Member accounts for purposes of Consumer Directed Exchange (CDeX).  These API calls are designed to be used by trusted 3rd party applications,
+The following example illustrates how to create new users in the VerifyMyIdentity, a certified Open ID Connect (OIDC) Identity Provider. The following examples create Community Member accounts for purposes of Consumer Directed Exchange (CDeX).  These API calls shown here are designed to be used by trusted 3rd party applications.
 
-
-The field names and structure of the HTTP request\response  bodies mirror and build upon Open ID Connect (OIDC) https://openid.net/specs/openid-connect-core-1_0.html and the iGov Profile for OpenID Connect https://openid.net/specs/openid-igov-openid-connect-1_0-02.html
+The field names and structure of the HTTP request\response  bodies mirror and build upon Open ID Connect (OIDC) https://openid.net/specs/openid-connect-core-1_0.html and the iGov Profile for OpenID Connect https://openid.net/specs/openid-igov-openid-connect-1_0-02.html.
 
 
 Create a User (Basic Example)
 ==============================
 
-The following example illustrates a bare minimum require necessary to create a user for purposes of Consumer Directed exchange. 
+The following example illustrates a bare rminimum request necessary to create a new user for purposes of Consumer Directed Exchange) 
 
 * HTTP Method: POST 
 * Body: application/json
@@ -30,7 +29,7 @@ Example Request Body
 
 Discussion
 ----------
-The fields `gender` and `birthdate` are not strictly required to create an account but are necessary to enable patient-linking and matching to the individual's health records.   While not required. a `password` parameter may also be given in this request.  If the password is not set, the user will need to set their own password through some alternative workflow.  In this example, there are no claims being made about the user's identity assurance level (IAL), therefore the resulting IAL is `1`(lowest trust).  In the next Enriched Example section we will create a more robust user from the start.
+The fields `gender` and `birthdate` are not strictly required to create an account but are necessary to enable patient-linking and matching to the individual's health records.   While not required a `password` parameter may also be given in this request.  If the password is not set, the user will need to set their own password through some alternative workflow.  In this example, there are no claims being made about the user's identity assurance level (IAL), therefore the resulting IAL is `1` (lowest trust).  In the next Enriched Example section we will create a more robust user from the start.
 
 
 Example Request Response
