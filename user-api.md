@@ -283,17 +283,16 @@ Request Body for Create Identifier
 Successful Response for Create Identifer
 ----------------------------------------
 
-
-            {
-            "uid": "94474d22-0962-4a6b-89ba-cddbe3e3a8d4",
-    		"issuer": "New York Department of Health HHS Mediciad Duke Health Systems",
-    		"type": "MEDICIAD_ID_NY",
-    		"num": "9ASDFG2",
-            "region": "NY"
-            "user": {
-                    "subject": 123456789012345
-    			}
-    	    }
+    {
+    "uid": "94474d22-0962-4a6b-89ba-cddbe3e3a8d4",
+    "issuer": "New York Department of Health HHS Mediciad Duke Health Systems",
+    "type": "MEDICIAD_ID_NY",
+    "num": "9ASDFG2",
+    "region": "NY"
+    "user": {
+            "subject": 123456789012345
+        	}
+     }
 
 
 Adding FHIR Pointers as Identifiers
@@ -376,7 +375,8 @@ Adding/Modifiing Addresses
 ==========================
 
 * HTTP Method: `POST` (to create) `PUT` (to update)
-* Body: application/json
+* Request Body: application/json
+* Response Body: application/json
 * Endpoint:https://alpha.verifymyidentity.com/api/v1/user/[sub]/address/
 * Authorization: OAuth2 Bearer Token
 
