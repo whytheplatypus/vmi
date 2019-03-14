@@ -16,8 +16,13 @@ The following example illustrates a bare rminimum request necessary to create a 
 * Endpoint:https://alpha.verifymyidentity.com/api/v1/user/
 * Authorization: OAuth2 Bearer Token
 
-Example Request Body
---------------------
+Discussion
+----------
+The fields `gender` and `birthdate` are not strictly required to create an account but are necessary to enable patient-linking and matching to the individual's health records.   While not required a `password` parameter may also be given in this request.  If the password is not set, the user will need to set their own password through some alternative workflow.  In this example, there are no claims being made about the user's identity assurance level (IAL), therefore the resulting IAL is `1` (lowest trust).  In the next Enriched Example section we will create a more robust user from the start.
+
+
+Request Body
+------------
 
     {
     "preferred_username": "james",
@@ -27,13 +32,11 @@ Example Request Body
     "birthdate": "1952-01-03"
     }
 
-Discussion
-----------
-The fields `gender` and `birthdate` are not strictly required to create an account but are necessary to enable patient-linking and matching to the individual's health records.   While not required a `password` parameter may also be given in this request.  If the password is not set, the user will need to set their own password through some alternative workflow.  In this example, there are no claims being made about the user's identity assurance level (IAL), therefore the resulting IAL is `1` (lowest trust).  In the next Enriched Example section we will create a more robust user from the start.
 
 
-Example Request Response
-------------------------
+
+Successful Request Response
+---------------------------
 
 A successful response `HTTP 200` will return a similar structure to what was sent.:
 
@@ -53,8 +56,8 @@ A successful response `HTTP 200` will return a similar structure to what was sen
     }
 
 
-Create a User (Enriched Example)
-================================
+Create a User Example #2 - More Options
+========================================
 
 The following example illustrates an account creation with more demographic and identity infiormation.
 
@@ -85,8 +88,8 @@ Request Body
 
 
 
-Request Response
-----------------
+Successful Request Response
+---------------------------
 
 A successful response `HTTP 200`:
 
@@ -116,7 +119,7 @@ Modify a User's Date of Birth
 
 * HTTP Method: POST or PUT
 * Body: application/json
-* Endpoint:https://alpha.verifymyidentity.com/api/v1/user/[sub]
+* Endpoint: https://alpha.verifymyidentity.com/api/v1/user/[sub]
 * Authorization: OAuth2 Bearer Token
 
 
@@ -132,8 +135,10 @@ Request Body:
 
 
 
-Example Response HTTP 200
--------------------------
+Successful Response
+-------------------
+
+Response code is `200`. 
 
 
     {
@@ -249,19 +254,18 @@ In most cases, the goal is to move a user's account from level `1` to level `2` 
 Adding a Mediciad ID number
 ---------------------------
 
-
 Request Endpoint: HTTP POST /api/v1/user/123456789012345/identifier/
 
 Request Body for Create Identifier
 -------------------------
 
 
-            {
-    		"issuer": "New York Department of Health HHS Mediciad Duke Health Systems",
-    		"type": "MEDICIAD_ID_NY",
-    		"num": "9ASDFG2",
-            "region": "NY"
-    	    }
+      {
+  	  "issuer": "New York Department of Health HHS Mediciad Duke Health Systems",
+      type": "MEDICIAD_ID_NY",
+      "num": "9ASDFG2",
+      "region": "NY"
+      }
 
 
 
