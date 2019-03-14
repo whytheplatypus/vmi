@@ -17,7 +17,8 @@ Create a User Example #1: Minimal
 The following example illustrates a bare rminimum request necessary to create a new user for purposes of Consumer Directed Exchange) 
 
 * HTTP Method: POST 
-* Body: application/json
+* Request Body: application/json
+* Response Body: application/json
 * Endpoint:https://alpha.verifymyidentity.com/api/v1/user/
 * Authorization: OAuth2 Bearer Token
 
@@ -68,7 +69,8 @@ The following example illustrates an account creation with more demographic and 
 
 
 * HTTP Method: POST 
-* Body: application/json
+* Request Body: application/json
+* Response Body: application/json
 * Endpoint:https://alpha.verifymyidentity.com/api/v1/user/
 * Authorization: OAuth2 Bearer Token
 
@@ -123,7 +125,8 @@ Modify a User's Date of Birth
 ------------------------------
 
 * HTTP Method: POST or PUT
-* Body: application/json
+* Request Body: application/json
+* Response Body: application/json
 * Endpoint: https://alpha.verifymyidentity.com/api/v1/user/[sub]
 * Authorization: OAuth2 Bearer Token
 
@@ -157,7 +160,8 @@ Adding\Modify Identity Assurance Level Evidence
 -----------------------------------------------
 
 * HTTP Method: `POST` (tp create) amd `PUT` (to Modify)
-* Body: application/json
+* Request Body: application/json
+* Response Body: application/json
 * Endpoint:https://alpha.verifymyidentity.com/api/v1/user/[sub]
 * Authorization: OAuth2 Bearer Token
 
@@ -247,7 +251,8 @@ Adding\Modifying Identifiers
 ----------------------------
 
 * HTTP Method: `POST` (to create) `PUT` (to update)
-* Body: application/json
+* Request Body: application/json
+* Response Body: application/json
 * Endpoint:https://alpha.verifymyidentity.com/api/v1/user/[sub]/identifier/
 * Authorization: OAuth2 Bearer Token
 
@@ -294,12 +299,19 @@ Successful Response for Create Identifer
 Adding FHIR Pointers as Identifiers
 -----------------------------------
 
+* HTTP Method: `POST` (to create) `PUT` (to update)
+* Request Body: application/json
+* Response Body: application/json
+* Endpoint:https://alpha.verifymyidentity.com/api/v1/user/[sub]/identifier/
+* Authorization: OAuth2 Bearer Token
+
+
 In the folowing example, two patient ID's to consumer facing API's are added to the user's record.
 The `software_id` field is used as the primary key to uniquely identify a given system. The `issuer` is a string describing the system.  The `type` identifies the type of the data contained in `nu,`  The `endpoint'` is the actual URL for the FHIR Resource server.  The `num` is the actual FHIR patient identier. Despit its name, it need not be a number.
 
 Request
 -------
-
+    {"document":
     [{
     		"issuer": "Health information Exchange of NY (HIXNY)",
     		"software_id": "HIXNY-patient-api",
@@ -315,45 +327,48 @@ Request
     		"num": "TGifRZDexrA8rYQWTmVU0e8G0VCpxGrspxW0dZ3Ls1owB",
     		"endpoint": "https://health-apis.duke.edu/FHIR/patient/DSTU2/"
     	}]
+      }
 
 Successful Response
 -------------------
 
-
-    [
+    {"sub": "123456789012345",
+     "document":
+        [
     	{
-            "uid": "94474d22-0962-4a6b-89ba-cddbe3e3a8d4",
-    		"issuer": "New York Department of Health HHS Mediciad Duke Health Systems",
-    		"type": "MEDICIAD_ID",
-    		"num": "9ASDFG2",
-            "region": "NY"
-            "user": {
-                    "subject": 123456789012345
-    			}
-    	},
-    		{
-            "uid": "50efab40-fd26-4f75-b124-30e4cec93620",
-    		"issuer": "Health information Exchange of NY (HIXNY)",
-    		"software_id": "HIXNY-patient-api",
-    		"type": "FHIR_PATIENT_ID",
-    		"num": "123456789012345",
-    		"endpoint": "https://hixny.oauth2.io/fhir/patient/DSTU2/"
-    		"user": {
-                    "subject": 123456789012345
+        "uid": "94474d22-0962-4a6b-89ba-cddbe3e3a8d4",
+    	"issuer": "New York Department of Health HHS Mediciad Duke Health Systems",
+    	"type": "MEDICIAD_ID",
+    	"num": "9ASDFG2",
+        "region": "NY"
+        "user": {
+        "subject": "123456789012345"
     			}
     	},
     	{
-            "uid": "d64e9b97-2a5a-4e69-b400-ad059a8c1fc8",
-    		"issuer": "Duke Health Systems",
-    		"software_id": "Duke-Health-Systems-Patient-API",
-    		"type": "FHIR_PATIENT_ID",
-    		"num": "TGifRZDexrA8rYQWTmVU0e8G0VCpxGrspxW0dZ3Ls1owB",
-    		"endpoint": "https://health-apis.duke.edu/FHIR/patient/DSTU2/"
-    		"user": {
-                    "subject": 123456789012345
+        "uid": "50efab40-fd26-4f75-b124-30e4cec93620",
+    	"issuer": "Health information Exchange of NY (HIXNY)",
+    	"software_id": "HIXNY-patient-api",
+    	"type": "FHIR_PATIENT_ID",
+    	"num": "123456789012345",
+    	"endpoint": "https://hixny.oauth2.io/fhir/patient/DSTU2/"
+    	"user": {
+                "subject": "123456789012345"
+    			}
+    	},
+    	{
+        "uid": "d64e9b97-2a5a-4e69-b400-ad059a8c1fc8",
+    	"issuer": "Duke Health Systems",
+    	"software_id": "Duke-Health-Systems-Patient-API",
+    	"type": "FHIR_PATIENT_ID",
+    	"num": "TGifRZDexrA8rYQWTmVU0e8G0VCpxGrspxW0dZ3Ls1owB",
+    	"endpoint": "https://health-apis.duke.edu/FHIR/patient/DSTU2/"
+    	"user": {
+                "subject": "123456789012345"
     			}
     	}
-    ]
+        ]
+    }
 
 
 
@@ -370,7 +385,6 @@ Addresses are physical addresses.  This works just like the other APIs/
 
 Request
 -------
-
 
 
     	{
