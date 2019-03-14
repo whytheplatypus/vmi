@@ -1,5 +1,5 @@
 Creating and Modify Users for Consumer Directed Exchange
-=========================================================
+========================================================
 
 The following example illustrates how to create new users in the VerifyMyIdentity, a certified Open ID Connect (OIDC) Identity Provider. The following examples create Community Member accounts for purposes of Consumer Directed Exchange (CDeX).  These API calls shown here are designed to be used by trusted 3rd party applications.
 
@@ -183,15 +183,15 @@ Example Response for Create
 
 
     {
-                "uid": "97fb9995-fa8b-4719-9f55-65c1c5f4fd1b",
-    			"description": "NY Medicaid card.",
-    			"classification": "NE-SUPERIOR-OR-STRONG+",
-    			"verifier_subject": "876545671054321",
-    			"note": "A paper copy of the document is on file.",
-    			"verification_date": "2019-03-04",
-    			"user": {
-                    "subject": 123456789012345
-    			}
+    "uid": "97fb9995-fa8b-4719-9f55-65c1c5f4fd1b",
+    "description": "NY Medicaid card.",
+    "classification": "NE-SUPERIOR-OR-STRONG+",
+    "verifier_subject": "876545671054321",
+    "note": "A paper copy of the document is on file.",
+    "verification_date": "2019-03-04",
+    "user": {
+            "subject": 123456789012345
+    		}
      }
 
 
@@ -275,8 +275,8 @@ Request Body for Create
 
 
 
-Example Response for Create
----------------------------
+Successful Response for Create
+-------------------------------
 
 
             {
@@ -316,8 +316,8 @@ Request
     		"endpoint": "https://health-apis.duke.edu/FHIR/patient/DSTU2/"
     	}]
 
-Response
---------
+Successful Response
+-------------------
 
 
     [
@@ -371,31 +371,32 @@ Addresses are physical addresses.  This works just like the other APIs/
 Request
 -------
     	{
-            "formatted": "837 State St.\n Schenectady, NY 12307",
-    		"street_address": "516 Brookwood Dr. ",
-    		"locality": "Schenectady",
-    		"region": "NY",
-    		"postal_code": "12307",
-    		"country": "US",
+        "formatted": "837 State St.\n Schenectady, NY 12307",
+    	"street_address": "837 State St.",
+    	"locality": "Schenectady",
+    	"region": "NY",
+    	"postal_code": "12307",
+    	"country": "US"
     	}
 
 
 
-Response
--------
-A successful response `HTTP 200`:
+Successful Response
+-------------------
+
+A successful response returns an `HTTP 200` :
 
     {
-    		"uid": "6ef4a89a-b520-4dab-be3e-e1b9e2f4d722",
-            "formatted": "837 State St.\n Schenectady, NY 12307",
-    		"street_address": "516 Brookwood Dr. ",
-    		"locality": "Schenectady",
-    		"region": "NY",
-    		"postal_code": "12307",
-    		"country": "US"
-    		"user": {
-                    "subject": 123456789012345
-    			}
-    	}
+    "uid": "6ef4a89a-b520-4dab-be3e-e1b9e2f4d722",
+    "formatted": "837 State St.\n Schenectady, NY 12307",
+    "street_address": "837 State St.",
+    "locality": "Schenectady",
+    "region": "NY",
+    "postal_code": "12307",
+    "country": "US",
+    "user": {
+            "subject": 123456789012345
+    		}
+    }
     
 
