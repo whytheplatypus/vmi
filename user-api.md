@@ -65,11 +65,12 @@ The following example illustrates an account creation with more demographic and 
 * Authorization: OAuth2 Bearer Token
 
 
-The following is an example request body:
 
+Request Body
+------------
 
     {
-    	"iss": "https://alpha.verifymyidentity.com",
+  	"iss": "https://alpha.verifymyidentity.com",
     "subject": "123456789012345",  
     "preferred_username": "james",
     "given_name": "James",
@@ -79,9 +80,10 @@ The following is an example request body:
     "birthdate": "1952-01-03",
     "nickname": "Jim",
     "phone_number": "+15182345678",
-    "email": "jamess@example.com",
+    "email": "jamess@example.com"
+    }
 
-}
+
 
 Request Response
 ----------------
@@ -105,7 +107,7 @@ A successful response `HTTP 200`:
     "id_assursance" : [],
     "document" : [],
     "address": []
-     }
+    }
 
 
 
@@ -135,8 +137,8 @@ Example Response HTTP 200
 
 
     {
-        "sub": "123456789012345",
-        "birthdate": "2233-03-22"
+    "sub": "123456789012345",
+    "birthdate": "2233-03-22"
     }
 
 
@@ -152,7 +154,6 @@ Adding\Modify Identity Assurance Level Evidence
 Adding a record of identifity verifieaction is how the IAL is calculated.  The `sub` is provided  as the identifer for the user record. 
 In most cases, the goal is to move a user's account from level `1` to level `2` for an extended period of time. The identity assurance level (IAL) claim contains:
 
-* ~~The desired IAL level~~
 * A description of the evidence
 * A code classifiing the evidence. Codes include `ONE-SUPERIOR-OR-STRONG+`,`ONE-STRONG-TWO-FAIR`,`TWO-STRONG`,  `TRUSTED-REFEREE-VOUCH`, and `KBA`. See Nist SP 800-63-3 for details.
 * The subject identifier of the person acting as a trusted agent (if applicable).
@@ -166,12 +167,12 @@ Request Body for Create
 
 
     {
-    			"description": "NY Medicaid card.",
-    			"classification": "NE-SUPERIOR-OR-STRONG+",
-                "exp": "2022-01-01",
-    			"verifier_subject": "876545671054321",
-    			"note": "A paper copy of the document is on file.",
-    			"verification_date": "2019-03-04"
+    "description": "NY Medicaid card.",
+    "classification": "NE-SUPERIOR-OR-STRONG+",
+    "exp": "2022-01-01",
+    "verifier_subject": "876545671054321",
+    "note": "A paper copy of the document is on file.",
+    "verification_date": "2019-03-04"
     }
 
 
