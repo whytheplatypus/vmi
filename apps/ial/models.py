@@ -7,6 +7,21 @@ from collections import OrderedDict
 __author__ = "Alan Viars"
 
 
+EVIDENCE_CLASSIFICATIONS = (
+    ('',
+     'None'),
+    ('ONE-SUPERIOR-OR-STRONG+',
+     'One Superior or Strong+ pieces of identity evidence'),
+    ('ONE-STRONG-TWO-FAIR',
+     'One Strong and Two Fair pieces of identity evidence'),
+    ('TWO-STRONG',
+     'Two Pieces of Strong identity evidence'),
+    ('TRUSTED-REFEREE-VOUCH',
+     'I am a Trusted Referee Vouching for this person'),
+    ('KBA',
+     'Knowledged-Based Identity Verification'))
+
+
 class IdentityAssuranceLevelDocumentation(models.Model):
 
     """This model is based on NIST SP 800-63-3 Part A
@@ -37,19 +52,7 @@ class IdentityAssuranceLevelDocumentation(models.Model):
         default='',
         blank=False)
     evidence = models.CharField(
-        choices=(
-            ('',
-             'None'),
-            ('ONE-SUPERIOR-OR-STRONG+',
-             'One Superior or Strong+ pieces of identity evidence'),
-            ('ONE-STRONG-TWO-FAIR',
-             'One Strong and Two Fair pieces of identity evidence'),
-            ('TWO-STRONG',
-             'Two Pieces of Strong identity evidence'),
-            ('TRUSTED-REFEREE-VOUCH',
-             'I am a Trusted Referee Vouching for this person'),
-            ('KBA',
-             'Knowledged-Based Identity Verification')),
+        choices=EVIDENCE_CLASSIFICATIONS,
         max_length=24,
         default='',
         blank=True)
