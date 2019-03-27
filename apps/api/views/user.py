@@ -1,4 +1,6 @@
-from rest_framework import serializers, viewsets
+from rest_framework import serializers, viewsets, permissions
+from oauth2_provider.contrib.rest_framework import authentication
+
 from django.contrib.auth import get_user_model
 from apps.accounts.models import (
     UserProfile,
@@ -62,18 +64,9 @@ class UserViewSet(viewsets.ModelViewSet):
     lookup_field = "subject"
     queryset = UserProfile.objects.all()
     serializer_class = UserSerializer
+    authentication_classes = [authentication.OAuth2Authentication]
+    permission_classes = [permissions.DjangoModelPermissions]
 
     def update(self, request, *args, **kwargs):
         kwargs['partial'] = True
         return super().update(request, *args, **kwargs)
-
-    # def create(self, request, *args, **kwargs):
-    #     pass
-    # def list(self, request, *args, **kwargs):
-    #     pass
-    # def retrieve(self, request, *args, **kwargs):
-    #     pass
-    # def update(self, request, *args, **kwargs):
-    #     pass
-    # def destroy(self, request, *args, **kwargs):
-    #     pass
