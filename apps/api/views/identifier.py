@@ -40,7 +40,9 @@ class IdentifierViewSet(viewsets.ModelViewSet):
     queryset = IdentityAssuranceLevelDocumentation.objects.all()
 
     def get_queryset(self):
-        return IdentityAssuranceLevelDocumentation.objects.filter(subject_user__userprofile__subject=self.kwargs['user_subject']).all()
+        return IdentityAssuranceLevelDocumentation.objects.filter(
+            subject_user__userprofile__subject=self.kwargs['user_subject']
+        ).all()
 
     def create(self, request, *args, **kwargs):
         try:
@@ -51,6 +53,7 @@ class IdentifierViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
         try:
             request.data['subject_user'] = User.objects.get(userprofile__subject=self.kwargs['user_subject']).pk
             request.data['verifying_user'] = self.request.user.pk

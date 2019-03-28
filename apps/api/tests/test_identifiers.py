@@ -90,45 +90,96 @@ class IdentifierTestCase(BaseTestCase):
 
         self.assertEqual(404, response.status_code, response.text)
 
-    # def test_update_identifier_success(self):
-    #     client = RequestsClient()
-    #     response = client.post(
-    #         "http://testserver/api/v1/user/{}/identifier/".format(self.subject),
-    #         json={
-    #             "description": "NY Medicaid card.",
-    #             "classification": "ONE-SUPERIOR-OR-STRONG+",
-    #             "exp": "2022-01-01",
-    #             "note": "A paper copy of the document is on file.",
-    #             "verification_date": "2019-03-04"
-    #         },
-    #         headers={
-    #             'Authorization': "Bearer {}".format(self.token.token),
-    #         })
+    def test_update_identifier_success(self):
+        client = RequestsClient()
+        response = client.post(
+            "http://testserver/api/v1/user/{}/identifier/".format(self.subject),
+            json={
+                "description": "NY Medicaid card.",
+                "classification": "ONE-SUPERIOR-OR-STRONG+",
+                "exp": "2022-01-01",
+                "note": "A paper copy of the document is on file.",
+                "verification_date": "2019-03-04"
+            },
+            headers={
+                'Authorization': "Bearer {}".format(self.token.token),
+            })
 
-    #     self.assertEqual(201, response.status_code, response.text)
+        update_response = client.put(
+            "http://testserver/api/v1/user/{}/identifier/{}/".format(self.subject, response.json()['uuid']),
+            json={
+                "exp": "2021-01-01",
+            },
+            headers={
+                'Authorization': "Bearer {}".format(self.token.token),
+            })
+        self.assertEqual(200, update_response.status_code, update_response.text)
 
-    #     self.assertDictContainsSubset({
-    #         "description": "NY Medicaid card.",
-    #         "classification": "ONE-SUPERIOR-OR-STRONG+",
-    #         "exp": "2022-01-01",
-    #         "verifier_subject": self.token.user.userprofile.subject,
-    #         "note": "A paper copy of the document is on file.",
-    #         "verification_date": "2019-03-04"
-    #     }, response.json(), response.json())
+        get_response = client.get(
+            "http://testserver/api/v1/user/{}/identifier/{}".format(self.subject, response.json()['uuid']),
+            headers={
+                'Authorization': "Bearer {}".format(self.token.token),
+            })
+        self.assertEqual(200, get_response.status_code, get_response.text)
+        self.assertDictContainsSubset({
+            "description": "NY Medicaid card.",
+            "classification": "ONE-SUPERIOR-OR-STRONG+",
+            "exp": "2021-01-01",
+            "verifier_subject": self.token.user.userprofile.subject,
+            "note": "A paper copy of the document is on file.",
+            "verification_date": "2019-03-04"
+        }, get_response.json(), get_response.json())
 
-    # def test_update_identifier_user_notfound(self):
-    #     client = RequestsClient()
-    #     response = client.post(
-    #         "http://testserver/api/v1/user/{}/identifier/".format(0000),
-    #         json={
-    #             "description": "NY Medicaid card.",
-    #             "classification": "ONE-SUPERIOR-OR-STRONG+",
-    #             "exp": "2022-01-01",
-    #             "note": "A paper copy of the document is on file.",
-    #             # "verification_date": "2019-03-04"
-    #         },
-    #         headers={
-    #             'Authorization': "Bearer {}".format(self.token.token),
-    #         })
+    def test_update_identifier_user_notfound(self):
+        client = RequestsClient()
+        client.post(
+            "http://testserver/api/v1/user/{}/identifier/".format(self.subject),
+            json={
+                "description": "NY Medicaid card.",
+                "classification": "ONE-SUPERIOR-OR-STRONG+",
+                "exp": "2022-01-01",
+                "note": "A paper copy of the document is on file.",
+                "verification_date": "2019-03-04"
+            },
+            headers={
+                'Authorization': "Bearer {}".format(self.token.token),
+            })
 
-    #     self.assertEqual(404, response.status_code, response.text)
+        update_response = client.put(
+            "http://testserver/api/v1/user/{}/identifier/{}/".format(self.subject, 'baduuid'),
+            json={
+                "exp": "2021-01-01",
+            },
+            headers={
+                'Authorization': "Bearer {}".format(self.token.token),
+            })
+        self.assertEqual(404, update_response.status_code, update_response.text)
+
+    def test_delete_identifier_success(self):
+        client = RequestsClient()
+        response = client.post(
+            "http://testserver/api/v1/user/{}/identifier/".format(self.subject),
+            json={
+                "description": "NY Medicaid card.",
+                "classification": "ONE-SUPERIOR-OR-STRONG+",
+                "exp": "2022-01-01",
+                "note": "A paper copy of the document is on file.",
+                "verification_date": "2019-03-04"
+            },
+            headers={
+                'Authorization': "Bearer {}".format(self.token.token),
+            })
+
+        delete_response = client.delete(
+            "http://testserver/api/v1/user/{}/identifier/{}/".format(self.subject, response.json()['uuid']),
+            headers={
+                'Authorization': "Bearer {}".format(self.token.token),
+            })
+        self.assertEqual(204, delete_response.status_code, delete_response.text)
+
+        get_response = client.get(
+            "http://testserver/api/v1/user/{}/identifier/{}".format(self.subject, response.json()['uuid']),
+            headers={
+                'Authorization': "Bearer {}".format(self.token.token),
+            })
+        self.assertEqual(404, get_response.status_code, get_response.text)
