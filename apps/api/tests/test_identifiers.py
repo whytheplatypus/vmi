@@ -37,7 +37,7 @@ class IdentifierTestCase(BaseTestCase):
     def test_create_identifier_success(self):
         client = RequestsClient()
         response = client.post(
-            "http://testserver/api/v1/user/{}/identifier/".format(self.subject),
+            "http://testserver/api/v1/user/{}/id-assurance/".format(self.subject),
             json={
                 "description": "NY Medicaid card.",
                 "classification": "ONE-SUPERIOR-OR-STRONG+",
@@ -59,7 +59,8 @@ class IdentifierTestCase(BaseTestCase):
             "note": "A paper copy of the document is on file.",
             "verification_date": "2019-03-04"
         }, response.json(), response.json())
-        get_response = client.get( "http://testserver/api/v1/user/{}/identifier/{}".format(self.subject, response.json()['uuid']),
+        get_response = client.get(
+            "http://testserver/api/v1/user/{}/id-assurance/{}".format(self.subject, response.json()['uuid']),
             headers={
                 'Authorization': "Bearer {}".format(self.token.token),
             })
@@ -76,7 +77,7 @@ class IdentifierTestCase(BaseTestCase):
     def test_create_identifier_user_notfound(self):
         client = RequestsClient()
         response = client.post(
-            "http://testserver/api/v1/user/{}/identifier/".format(0000),
+            "http://testserver/api/v1/user/{}/id-assurance/".format(0000),
             json={
                 "description": "NY Medicaid card.",
                 "classification": "ONE-SUPERIOR-OR-STRONG+",
@@ -93,7 +94,7 @@ class IdentifierTestCase(BaseTestCase):
     def test_update_identifier_success(self):
         client = RequestsClient()
         response = client.post(
-            "http://testserver/api/v1/user/{}/identifier/".format(self.subject),
+            "http://testserver/api/v1/user/{}/id-assurance/".format(self.subject),
             json={
                 "description": "NY Medicaid card.",
                 "classification": "ONE-SUPERIOR-OR-STRONG+",
@@ -106,7 +107,7 @@ class IdentifierTestCase(BaseTestCase):
             })
 
         update_response = client.put(
-            "http://testserver/api/v1/user/{}/identifier/{}/".format(self.subject, response.json()['uuid']),
+            "http://testserver/api/v1/user/{}/id-assurance/{}/".format(self.subject, response.json()['uuid']),
             json={
                 "exp": "2021-01-01",
             },
@@ -116,7 +117,7 @@ class IdentifierTestCase(BaseTestCase):
         self.assertEqual(200, update_response.status_code, update_response.text)
 
         get_response = client.get(
-            "http://testserver/api/v1/user/{}/identifier/{}".format(self.subject, response.json()['uuid']),
+            "http://testserver/api/v1/user/{}/id-assurance/{}".format(self.subject, response.json()['uuid']),
             headers={
                 'Authorization': "Bearer {}".format(self.token.token),
             })
@@ -133,7 +134,7 @@ class IdentifierTestCase(BaseTestCase):
     def test_update_identifier_user_notfound(self):
         client = RequestsClient()
         client.post(
-            "http://testserver/api/v1/user/{}/identifier/".format(self.subject),
+            "http://testserver/api/v1/user/{}/id-assurance/".format(self.subject),
             json={
                 "description": "NY Medicaid card.",
                 "classification": "ONE-SUPERIOR-OR-STRONG+",
@@ -146,7 +147,7 @@ class IdentifierTestCase(BaseTestCase):
             })
 
         update_response = client.put(
-            "http://testserver/api/v1/user/{}/identifier/{}/".format(self.subject, 'baduuid'),
+            "http://testserver/api/v1/user/{}/id-assurance/{}/".format(self.subject, 'baduuid'),
             json={
                 "exp": "2021-01-01",
             },
@@ -158,7 +159,7 @@ class IdentifierTestCase(BaseTestCase):
     def test_delete_identifier_success(self):
         client = RequestsClient()
         response = client.post(
-            "http://testserver/api/v1/user/{}/identifier/".format(self.subject),
+            "http://testserver/api/v1/user/{}/id-assurance/".format(self.subject),
             json={
                 "description": "NY Medicaid card.",
                 "classification": "ONE-SUPERIOR-OR-STRONG+",
@@ -171,14 +172,14 @@ class IdentifierTestCase(BaseTestCase):
             })
 
         delete_response = client.delete(
-            "http://testserver/api/v1/user/{}/identifier/{}/".format(self.subject, response.json()['uuid']),
+            "http://testserver/api/v1/user/{}/id-assurance/{}/".format(self.subject, response.json()['uuid']),
             headers={
                 'Authorization': "Bearer {}".format(self.token.token),
             })
         self.assertEqual(204, delete_response.status_code, delete_response.text)
 
         get_response = client.get(
-            "http://testserver/api/v1/user/{}/identifier/{}".format(self.subject, response.json()['uuid']),
+            "http://testserver/api/v1/user/{}/id-assurance/{}".format(self.subject, response.json()['uuid']),
             headers={
                 'Authorization': "Bearer {}".format(self.token.token),
             })
