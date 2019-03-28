@@ -1,7 +1,8 @@
+import json
+import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
 from datetime import date
-import json
 from collections import OrderedDict
 
 __author__ = "Alan Viars"
@@ -27,6 +28,7 @@ class IdentityAssuranceLevelDocumentation(models.Model):
     """This model is based on NIST SP 800-63-3 Part A
     https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-63a.pdf
     """
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     subject_user = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
@@ -66,6 +68,11 @@ class IdentityAssuranceLevelDocumentation(models.Model):
         default='',
         help_text="""Complete this description when downgrading the ID assurance level.""")
 
+    note = models.TextField(
+        blank=True,
+        null=True,
+    )
+
     metadata = models.TextField(
         blank=True,
         default="""{"subject_user":null, "history":[]}""",
@@ -74,6 +81,7 @@ class IdentityAssuranceLevelDocumentation(models.Model):
     # type is be some enumerated\codified list.
     type = models.CharField(max_length=16, blank=True, default='')
     expires_at = models.DateField(blank=True, null=True)
+    verification_date = models.DateField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

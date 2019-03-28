@@ -2,8 +2,10 @@ from apps.ial.models import (
     IdentityAssuranceLevelDocumentation,
     EVIDENCE_CLASSIFICATIONS)
 
-from rest_framework import serializers, viewsets
+from rest_framework import serializers, viewsets, permissions
+from oauth2_provider.contrib.rest_framework import authentication
 from django.contrib.auth import get_user_model
+from django.http import Http404
 User = get_user_model()
 
 # {
@@ -20,17 +22,38 @@ class IdentifierSerializer(serializers.ModelSerializer):
     classification = serializers.ChoiceField(source="evidence", choices=EVIDENCE_CLASSIFICATIONS)
     description = serializers.CharField(source="id_verify_description")
     exp = serializers.DateField(source='expires_at')
+    verifier_subject = serializers.CharField(source="verifying_user.userprofile.subject", read_only=True)
 
     class Meta:
         model = IdentityAssuranceLevelDocumentation
+        fields = '__all__'
+        read_only_fields = ('verifier_subject', )
 
 
 class IdentifierViewSet(viewsets.ModelViewSet):
+    lookup_field = 'uuid'
     serializer_class = IdentifierSerializer
+    authentication_classes = [authentication.OAuth2Authentication]
+    permission_classes = [permissions.DjangoModelPermissions]
+
+    # Set to allow DjangoModelPermissions to determine required model level perms
+    queryset = IdentityAssuranceLevelDocumentation.objects.all()
 
     def get_queryset(self):
-        IdentityAssuranceLevelDocumentation.objects.all(subject_user=self.kwargs['user_subject'])
+        return IdentityAssuranceLevelDocumentation.objects.filter(subject_user__userprofile__subject=self.kwargs['user_subject']).all()
 
     def create(self, request, *args, **kwargs):
-        request.data['subject_user'] = User.objects.get(userprofile__subject=self.kwargs['user_subject']).pk
+        try:
+            request.data['subject_user'] = User.objects.get(userprofile__subject=self.kwargs['user_subject']).pk
+            request.data['verifying_user'] = self.request.user.pk
+        except User.DoesNotExist:
+            raise Http404
         return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        try:
+            request.data['subject_user'] = User.objects.get(userprofile__subject=self.kwargs['user_subject']).pk
+            request.data['verifying_user'] = self.request.user.pk
+        except User.DoesNotExist:
+            raise Http404
+        return super().update(request, *args, **kwargs)
