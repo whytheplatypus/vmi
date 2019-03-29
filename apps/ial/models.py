@@ -28,7 +28,7 @@ class IdentityAssuranceLevelDocumentation(models.Model):
     """This model is based on NIST SP 800-63-3 Part A
     https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-63a.pdf
     """
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(db_index=True, default=uuid.uuid4, editable=False)
     subject_user = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,

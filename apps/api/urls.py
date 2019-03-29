@@ -9,13 +9,13 @@ from .views import (
 router = routers.SimpleRouter()
 router.register(r'user', UserViewSet)
 
-identifier_router = routers.NestedSimpleRouter(router, r'user', lookup='user')
-identifier_router.register(r'id-assurance', IdentifierViewSet, base_name='identifier')
-identifier_router.register(r'address', AddressViewSet, base_name='address')
+owned_by_user_router = routers.NestedSimpleRouter(router, r'user', lookup='user')
+owned_by_user_router.register(r'id-assurance', IdentifierViewSet, base_name='identifier')
+owned_by_user_router.register(r'address', AddressViewSet, base_name='address')
 
 v1 = [
     path('', include(router.urls)),
-    path('', include(identifier_router.urls)),
+    path('', include(owned_by_user_router.urls)),
 ]
 
 urlpatterns = [

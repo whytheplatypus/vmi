@@ -44,19 +44,15 @@ class IdentifierViewSet(viewsets.ModelViewSet):
             subject_user__userprofile__subject=self.kwargs['user_subject']
         ).all()
 
-    def create(self, request, *args, **kwargs):
-        try:
-            request.data['subject_user'] = User.objects.get(userprofile__subject=self.kwargs['user_subject']).pk
-            request.data['verifying_user'] = self.request.user.pk
-        except User.DoesNotExist:
-            raise Http404
-        return super().create(request, *args, **kwargs)
+    def get_serializer(self, *args, **kwargs):
+        if 'data' in kwargs:
+            try:
+                kwargs['data']['subject_user'] = User.objects.get(userprofile__subject=self.kwargs['user_subject']).pk
+                kwargs['data']['verifying_user'] = self.request.user.pk
+            except User.DoesNotExist:
+                raise Http404
+        return super().get_serializer(*args, **kwargs)
 
     def update(self, request, *args, **kwargs):
         kwargs['partial'] = True
-        try:
-            request.data['subject_user'] = User.objects.get(userprofile__subject=self.kwargs['user_subject']).pk
-            request.data['verifying_user'] = self.request.user.pk
-        except User.DoesNotExist:
-            raise Http404
         return super().update(request, *args, **kwargs)

@@ -1,10 +1,9 @@
-from datetime import timedelta, date
+from datetime import timedelta
 from django.utils import timezone
 from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
-from rest_framework.test import RequestsClient
 from oauth2_provider.models import get_application_model, get_access_token_model
 from oauth2_provider.settings import oauth2_settings
 from apps.accounts.models import UserProfile
